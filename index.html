@@ -118,6 +118,18 @@
 
   .idle-msg{color:var(--text-dim);font-size:14px;line-height:1.5;margin-bottom:18px;}
 
+  .session{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
+    margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
+  }
+  .session span{
+    display:block;font-family:var(--mono);
+    font-size:22px;font-weight:600;line-height:1.1;
+  }
+  .session small{
+    display:block;font-size:11px;color:var(--text-dim);margin-top:4px;
+  }
+
   .section-title{
     font-size:13px;color:var(--text-dim);
     text-transform:uppercase;letter-spacing:0.08em;
@@ -195,6 +207,8 @@
       font-size:17px;padding:18px 10px;
     }
     #btnStart{grid-column:1 / -1;}
+
+    .session span{font-size:26px;}
 
     table thead{display:none;}
     table, tbody, tr, td{display:block;width:100%;}
@@ -287,6 +301,12 @@
       <button id="btnSkip" disabled>Další interval</button>
       <button id="btnStop" disabled>Ukončit</button>
     </div>
+
+    <div class="session" id="sessionStrip">
+      <div><span id="sesDist">0</span><small>m celkem</small></div>
+      <div><span id="sesTime">0:00</span><small>čas</small></div>
+      <div><span id="sesIncline">—</span><small>% sklon</small></div>
+    </div>
   </div>
 
   <div class="panel">
@@ -341,9 +361,7 @@
   const CHR_MACHINE_STATUS = '00002ada-0000-1000-8000-00805f9b34fb';
 
   const OP_REQUEST_CONTROL = 0x00;
-  const OP_RESET           = 0x01;
   const OP_SET_TARGET_SPEED = 0x02;
-  const OP_SET_TARGET_INCLINE = 0x03;
   const OP_START_RESUME    = 0x07;
   const OP_STOP_PAUSE      = 0x08;
   const RESP_CODE          = 0x80;
@@ -363,6 +381,13 @@
   let lastTotalDistanceM = 0;
   let haveDistanceBaseline = false;
 
+  // Session totals — the console hides these once BLE takes over the treadmill.
+  let sessionStartDistanceM = null;
+  let sessionStartedAt = null;
+  let deviceElapsedSec = null;
+  let deviceElapsedBase = null;
+  let sessionTicker = null;
+
   // ---------- DOM ----------
   const $ = (id)=>document.getElementById(id);
   const statusDot = $('statusDot'), statusText = $('statusText');
@@ -373,6 +398,7 @@
   const valSpeed = $('valSpeed'), valTarget = $('valTarget'), valRemaining = $('valRemaining');
   const progressBar = $('progressBar');
   const intervalBody = $('intervalBody');
+  const sesDist = $('sesDist'), sesTime = $('sesTime'), sesIncline = $('sesIncline');
   const chkVoice = $('chkVoice');
 
   // ---------- helpers ----------
@@ -662,32 +688,65 @@
   // ---------- treadmill data (0x2ACD) ----------
   function onTreadmillData(e){
     const dv = e.target.value;
+    const len = dv.byteLength;
     let offset = 0;
     const flags = dv.getUint16(offset, true); offset+=2;
+    const has = (bit)=> (flags & (1<<bit)) !== 0;
+    const room = (n)=> offset + n <= len;
 
-    let instSpeedKmh = null, totalDistanceM = null;
+    let instSpeedKmh=null, totalDistanceM=null, inclinePct=null, elapsedSec=null;
 
-    if((flags & 0x0001) === 0){
-      instSpeedKmh = dv.getUint16(offset, true) / 100; offset+=2;
-    }
-    if(flags & 0x0002){ offset+=2; }
-    if(flags & 0x0004){
-      const b0 = dv.getUint8(offset), b1 = dv.getUint8(offset+1), b2 = dv.getUint8(offset+2);
-      totalDistanceM = b0 | (b1<<8) | (b2<<16);
+    // Bit 0 is "More Data": when it is 0, instantaneous speed IS present.
+    if(!has(0) && room(2)){ instSpeedKmh = dv.getUint16(offset,true)/100; offset+=2; }
+    if(has(1) && room(2)){ offset+=2; }                    // average speed
+    if(has(2) && room(3)){                                  // total distance, 24-bit, meters
+      totalDistanceM = dv.getUint8(offset) | (dv.getUint8(offset+1)<<8) | (dv.getUint8(offset+2)<<16);
       offset+=3;
     }
-
-    if(instSpeedKmh!==null){
-      valSpeed.textContent = instSpeedKmh.toFixed(1);
+    if(has(3) && room(4)){                                  // inclination + ramp angle
+      inclinePct = dv.getInt16(offset,true)/10; offset+=4;
     }
+    if(has(4) && room(4)){ offset+=4; }                     // elevation gain
+    if(has(5) && room(1)){ offset+=1; }                     // instantaneous pace
+    if(has(6) && room(1)){ offset+=1; }                     // average pace
+    if(has(7) && room(5)){ offset+=5; }                     // energy
+    if(has(8) && room(1)){ offset+=1; }                     // heart rate
+    if(has(9) && room(1)){ offset+=1; }                     // metabolic equivalent
+    if(has(10) && room(2)){ elapsedSec = dv.getUint16(offset,true); offset+=2; }
+
+    if(instSpeedKmh!==null) valSpeed.textContent = instSpeedKmh.toFixed(1);
+    if(inclinePct!==null) sesIncline.textContent = inclinePct.toFixed(1);
+
+    if(elapsedSec!==null){
+      if(deviceElapsedBase===null) deviceElapsedBase = elapsedSec;
+      deviceElapsedSec = elapsedSec;
+    }
+
     if(totalDistanceM!==null){
       lastTotalDistanceM = totalDistanceM;
+      if(sessionStartDistanceM===null) sessionStartDistanceM = totalDistanceM;
       if(!haveDistanceBaseline){
         startDistanceM = totalDistanceM;
         haveDistanceBaseline = true;
       }
+      sesDist.textContent = Math.max(0, totalDistanceM - sessionStartDistanceM);
       if(running && !paused) updateProgress();
     }
+    updateSessionTime();
+  }
+
+  function updateSessionTime(){
+    let sec = null;
+    if(deviceElapsedSec!==null && deviceElapsedBase!==null){
+      // Prefer the treadmill's own clock when it reports one.
+      sec = deviceElapsedSec - deviceElapsedBase;
+    }else if(sessionStartedAt){
+      sec = Math.floor((Date.now()-sessionStartedAt)/1000);
+    }
+    if(sec===null) return;
+    sec = Math.max(0, sec);
+    const mm = Math.floor(sec/60), ss = sec%60;
+    sesTime.textContent = mm + ':' + String(ss).padStart(2,'0');
   }
 
   // ---------- workout engine ----------
@@ -697,6 +756,15 @@
     idleMsg.style.display='none';
     liveView.style.display='block';
     btnStart.disabled = true; btnPause.disabled=false; btnSkip.disabled=false; btnStop.disabled=false;
+
+    sessionStartDistanceM = (lastTotalDistanceM || null);
+    sessionStartedAt = Date.now();
+    deviceElapsedBase = deviceElapsedSec;
+    sesDist.textContent = '0';
+    sesTime.textContent = '0:00';
+    if(sessionTicker) clearInterval(sessionTicker);
+    sessionTicker = setInterval(updateSessionTime, 1000);
+
     requestWakeLock();
     await advanceInterval();
   });
@@ -729,6 +797,7 @@
     idleMsg.style.display='block';
     liveView.style.display='none';
     releaseWakeLock();
+    if(sessionTicker){ clearInterval(sessionTicker); sessionTicker=null; }
     renderIntervals();
     if(sendStopCmd && controlChar){
       try{ await stopMachine(); }catch(e){}
@@ -736,6 +805,11 @@
   }
 
   async function advanceInterval(){
+    if(currentIndex>=0 && intervals[currentIndex] && haveDistanceBaseline){
+      const done = intervals[currentIndex];
+      const measured = Math.max(0, lastTotalDistanceM - startDistanceM);
+      log('Interval ' + (currentIndex+1) + ' hotov: pás napočítal ' + measured + ' m (zadáno ' + done.distanceM + ' m)');
+    }
     currentIndex++;
     if(currentIndex>=intervals.length){
       speak('Trénink hotový');
@@ -758,7 +832,6 @@
     speak((iv.kind==='run'?'Běh, ':'Chůze, ') + iv.distanceM + ' metrů, tempo ' + iv.paceStr + ' na kilometr');
     beep(iv.kind==='run'?660:440, 200);
 
-    log('Interval ' + (currentIndex+1) + ': ' + iv.speedKmh.toFixed(1) + ' km/h, ' + iv.distanceM + ' m');
     await setTargetSpeed(iv.speedKmh);
     await startMachine();
   }
