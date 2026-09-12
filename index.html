@@ -80,7 +80,6 @@
     margin-bottom:16px;
   }
 
-  /* --- Live run panel --- */
   .run-panel{text-align:center;padding:26px 20px;}
   .run-label{
     font-size:13px;color:var(--text-dim);
@@ -117,9 +116,8 @@
   .run-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
   .run-controls button{min-width:100px;font-size:15px;padding:12px 18px;}
 
-  .idle-msg{color:var(--text-dim);font-size:14px;line-height:1.5;}
+  .idle-msg{color:var(--text-dim);font-size:14px;line-height:1.5;margin-bottom:18px;}
 
-  /* --- Interval table --- */
   .section-title{
     font-size:13px;color:var(--text-dim);
     text-transform:uppercase;letter-spacing:0.08em;
@@ -160,13 +158,11 @@
     font-size:12px;color:var(--text-dim);line-height:1.6;
     margin-top:6px;
   }
-  footer a{color:var(--text-dim);}
 
   @media (prefers-reduced-motion: reduce){
     .progress-inner{transition:none;}
   }
 
-  /* ---- Mobile / treadmill-holder layout ---- */
   @media (max-width: 680px){
     body{padding:12px;}
     header{margin-bottom:12px;}
@@ -283,13 +279,13 @@
       </div>
 
       <div class="progress-outer"><div class="progress-inner" id="progressBar"></div></div>
+    </div>
 
-      <div class="run-controls">
-        <button class="primary" id="btnStart">Start tréninku</button>
-        <button id="btnPause" disabled>Pauza</button>
-        <button id="btnSkip" disabled>Další interval</button>
-        <button id="btnStop" disabled>Ukončit</button>
-      </div>
+    <div class="run-controls">
+      <button class="primary" id="btnStart" disabled>Start tréninku</button>
+      <button id="btnPause" disabled>Pauza</button>
+      <button id="btnSkip" disabled>Další interval</button>
+      <button id="btnStop" disabled>Ukončit</button>
     </div>
   </div>
 
@@ -328,7 +324,7 @@
   </div>
 
   <footer>
-    Funguje v Chrome / Edge / Chromium (Web Bluetooth). Vyžaduje pás s FTMS podporou (T900D má).
+    Funguje v Chrome / Edge / Chromium (Web Bluetooth), na iOS v prohlížeči Bluefy. Vyžaduje pás s FTMS podporou.
     Bezpečnostní klíč pásu i tlačítko nouzového zastavení na konzoli fungují nezávisle na appce — appka je nenahrazuje.
   </footer>
 
@@ -339,7 +335,6 @@
   "use strict";
 
   // ---------- FTMS constants ----------
-  // Full UUID — Bluefy on iOS does not reliably accept the 'fitness_machine' alias
   const SVC_FTMS = '00001826-0000-1000-8000-00805f9b34fb';
   const CHR_TREADMILL_DATA = '00002acd-0000-1000-8000-00805f9b34fb';
   const CHR_CONTROL_POINT  = '00002ad9-0000-1000-8000-00805f9b34fb';
@@ -352,7 +347,6 @@
   const OP_START_RESUME    = 0x07;
   const OP_STOP_PAUSE      = 0x08;
   const RESP_CODE          = 0x80;
-  const RESULT_SUCCESS     = 0x01;
 
   // ---------- state ----------
   let device=null, server=null;
@@ -472,7 +466,7 @@
         if(iv.kind===k) opt.selected=true;
         sel.appendChild(opt);
       });
-      sel.addEventListener('change', ()=>{ iv.kind = sel.value; });
+      sel.addEventListener('change', ()=>{ iv.kind = sel.value; renderIntervals(); });
       tdKind.appendChild(sel);
 
       const tdLabel = document.createElement('td');
@@ -530,6 +524,10 @@
       tr.appendChild(tdDel);
       intervalBody.appendChild(tr);
     });
+
+    if(!running){
+      btnStart.disabled = (intervals.length===0) || !controlChar;
+    }
   }
 
   $('btnAddRun').addEventListener('click', ()=>addInterval('run', 400, Math.round((paceToSpeed('4:00')||10)*10)/10, '4:00'));
@@ -575,7 +573,7 @@
         });
       }
 
-      log('Vybráno: ' + (device.name || '(bez názvu)') + ' / id ' + device.id);
+      log('Vybráno: ' + (device.name || '(bez názvu)'));
       device.addEventListener('gattserverdisconnected', onDisconnected);
 
       setStatus('Připojuji…');
@@ -617,6 +615,7 @@
   function onDisconnected(){
     setStatus('Odpojeno');
     log('Zařízení se odpojilo.');
+    treadmillChar = null; controlChar = null; statusChar = null;
     btnConnect.disabled = false;
     btnDisconnect.disabled = true;
     stopWorkout(false);
@@ -624,11 +623,13 @@
 
   // ---------- control point ----------
   function sendControlCommand(bytes){
-    controlQueue = controlQueue.then(()=> new Promise(async (resolve, reject)=>{
+    controlQueue = controlQueue.then(()=> new Promise(async (resolve)=>{
+      if(!controlChar){ resolve(); return; }
       pendingControlResolve = resolve;
       try{
         await controlChar.writeValueWithResponse(new Uint8Array(bytes));
       }catch(e){
+        log('Zápis příkazu selhal: ' + e.message);
         pendingControlResolve = null;
         resolve();
         return;
@@ -643,6 +644,9 @@
   function onControlResponse(e){
     const v = e.target.value;
     if(v.byteLength>=3 && v.getUint8(0)===RESP_CODE){
+      if(v.getUint8(2)!==0x01){
+        log('Pás odmítl příkaz 0x' + v.getUint8(1).toString(16) + ' (kód ' + v.getUint8(2) + ')');
+      }
       if(pendingControlResolve){ pendingControlResolve(); pendingControlResolve=null; }
     }
   }
@@ -720,7 +724,6 @@
 
   async function stopWorkout(sendStopCmd){
     running=false; paused=false; currentIndex=-1;
-    btnStart.disabled = intervals.length===0;
     btnPause.disabled=true; btnPause.textContent='Pauza';
     btnSkip.disabled=true; btnStop.disabled=true;
     idleMsg.style.display='block';
@@ -755,6 +758,7 @@
     speak((iv.kind==='run'?'Běh, ':'Chůze, ') + iv.distanceM + ' metrů, tempo ' + iv.paceStr + ' na kilometr');
     beep(iv.kind==='run'?660:440, 200);
 
+    log('Interval ' + (currentIndex+1) + ': ' + iv.speedKmh.toFixed(1) + ' km/h, ' + iv.distanceM + ' m');
     await setTargetSpeed(iv.speedKmh);
     await startMachine();
   }
