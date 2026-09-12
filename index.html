@@ -30,38 +30,21 @@
   .wrap{max-width:760px;margin:0 auto;}
 
   header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    flex-wrap:wrap;
-    margin-bottom:18px;
+    display:flex;justify-content:space-between;align-items:center;
+    gap:12px;flex-wrap:wrap;margin-bottom:18px;
   }
-  h1{
-    font-size:19px;
-    font-weight:600;
-    letter-spacing:0.01em;
-    margin:0;
-  }
+  h1{font-size:19px;font-weight:600;margin:0;}
   h1 small{display:block;font-size:12px;font-weight:400;color:var(--text-dim);margin-top:2px;}
 
-  .status{
-    display:flex;align-items:center;gap:8px;
-    font-size:13px;color:var(--text-dim);
-  }
+  .status{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-dim);}
   .dot{width:8px;height:8px;border-radius:50%;background:var(--text-dim);flex:none;}
   .dot.on{background:var(--green);box-shadow:0 0 8px var(--green);}
   .dot.err{background:var(--red);box-shadow:0 0 8px var(--red);}
 
   button{
-    font-family:inherit;
-    border:1px solid var(--line);
-    background:var(--panel-2);
-    color:var(--text);
-    padding:10px 16px;
-    border-radius:8px;
-    font-size:14px;
-    cursor:pointer;
+    font-family:inherit;border:1px solid var(--line);
+    background:var(--panel-2);color:var(--text);
+    padding:10px 16px;border-radius:8px;font-size:14px;cursor:pointer;
     transition:background .15s, border-color .15s;
   }
   button:hover{border-color:#3A4550;}
@@ -72,45 +55,45 @@
   button.ghost{background:transparent;}
   button:focus-visible{outline:2px solid var(--amber);outline-offset:2px;}
 
+  input[type=text], input[type=number]{
+    width:100%;background:var(--panel-2);
+    border:1px solid var(--line);color:var(--text);
+    border-radius:6px;padding:8px 9px;font-family:inherit;font-size:14px;
+  }
+  input:focus-visible{outline:2px solid var(--amber);outline-offset:1px;}
+  select{
+    background:var(--panel-2);color:var(--text);border:1px solid var(--line);
+    border-radius:6px;padding:8px 7px;font-family:inherit;font-size:14px;width:100%;
+  }
+
   .panel{
-    background:var(--panel);
-    border:1px solid var(--line);
-    border-radius:12px;
-    padding:20px;
-    margin-bottom:16px;
+    background:var(--panel);border:1px solid var(--line);
+    border-radius:12px;padding:20px;margin-bottom:16px;
+  }
+  .section-title{
+    font-size:13px;color:var(--text-dim);
+    text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;
   }
 
   .run-panel{text-align:center;padding:26px 20px;}
   .run-label{
     font-size:13px;color:var(--text-dim);
-    text-transform:uppercase;letter-spacing:0.08em;
-    margin-bottom:6px;
+    text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;
   }
   .run-name{font-size:22px;font-weight:600;margin-bottom:18px;}
   .run-name.rest{color:var(--amber);}
   .run-name.work{color:var(--red);}
 
-  .big-numbers{
-    display:flex;justify-content:center;gap:36px;
-    margin-bottom:20px;flex-wrap:wrap;
-  }
+  .big-numbers{display:flex;justify-content:center;gap:36px;margin-bottom:20px;flex-wrap:wrap;}
   .big-numbers .item{min-width:110px;}
-  .big-numbers .value{
-    font-family:var(--mono);
-    font-size:40px;font-weight:600;
-    line-height:1;
-  }
+  .big-numbers .value{font-family:var(--mono);font-size:40px;font-weight:600;line-height:1;}
   .big-numbers .unit{font-size:13px;color:var(--text-dim);margin-top:6px;}
 
   .progress-outer{
-    height:10px;background:var(--panel-2);
-    border-radius:6px;overflow:hidden;margin-bottom:20px;
-    border:1px solid var(--line);
+    height:10px;background:var(--panel-2);border-radius:6px;
+    overflow:hidden;margin-bottom:20px;border:1px solid var(--line);
   }
-  .progress-inner{
-    height:100%;background:var(--red);
-    width:0%;transition:width .3s linear;
-  }
+  .progress-inner{height:100%;background:var(--red);width:0%;transition:width .2s linear;}
   .progress-inner.rest{background:var(--amber);}
 
   .run-controls{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
@@ -122,54 +105,36 @@
     display:grid;grid-template-columns:repeat(3,1fr);gap:8px;
     margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
   }
-  .session span{
-    display:block;font-family:var(--mono);
-    font-size:22px;font-weight:600;line-height:1.1;
-  }
-  .session small{
-    display:block;font-size:11px;color:var(--text-dim);margin-top:4px;
-  }
+  .session span{display:block;font-family:var(--mono);font-size:22px;font-weight:600;line-height:1.1;}
+  .session small{display:block;font-size:11px;color:var(--text-dim);margin-top:4px;}
 
-  .section-title{
+  .iv{
+    border:1px solid var(--line);border-radius:10px;
+    padding:12px;margin-bottom:10px;background:var(--panel-2);
+  }
+  .iv.current{border-color:var(--red);background:rgba(225,67,46,0.07);}
+  .iv-head{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .iv-num{font-family:var(--mono);font-size:13px;color:var(--text-dim);min-width:22px;}
+  .iv-title{font-size:15px;font-weight:600;flex:1;}
+  .iv-title.rest{color:var(--amber);}
+  .iv-title.work{color:var(--red);}
+  .iv-del{padding:6px 10px;font-size:14px;line-height:1;}
+
+  .iv-fields{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;}
+  .iv-fields label{display:block;font-size:11px;color:var(--text-dim);margin-bottom:4px;}
+
+  .add-row{display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;}
+
+  .builder{margin-top:16px;padding-top:16px;border-top:1px solid var(--line);}
+  .builder-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
+  .builder-grid label{display:block;font-size:11px;color:var(--text-dim);margin-bottom:4px;}
+
+  .summary{
+    margin-top:14px;padding-top:12px;border-top:1px solid var(--line);
     font-size:13px;color:var(--text-dim);
-    text-transform:uppercase;letter-spacing:0.08em;
-    margin-bottom:10px;
   }
-  table{width:100%;border-collapse:collapse;font-size:14px;}
-  th{
-    text-align:left;font-weight:500;color:var(--text-dim);
-    font-size:12px;padding:0 8px 8px;border-bottom:1px solid var(--line);
-  }
-  td{padding:6px 8px;border-bottom:1px solid var(--line);}
-  tr.current-row td{background:rgba(225,67,46,0.08);}
-  input[type=text], input[type=number]{
-    width:100%;background:var(--panel-2);
-    border:1px solid var(--line);color:var(--text);
-    border-radius:6px;padding:7px 8px;font-family:inherit;font-size:14px;
-  }
-  input:focus-visible{outline:2px solid var(--amber);outline-offset:1px;}
-  select{
-    background:var(--panel-2);color:var(--text);border:1px solid var(--line);
-    border-radius:6px;padding:7px 6px;font-family:inherit;font-size:14px;width:100%;
-  }
-  .col-del{width:36px;text-align:center;}
-  .col-del button{padding:5px 9px;font-size:14px;}
 
-  .add-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
-  .add-row button{flex:none;}
-
-  .quick-add{
-    display:flex;gap:8px;align-items:center;flex-wrap:wrap;
-    margin-top:14px;padding-top:14px;border-top:1px solid var(--line);
-  }
-  .quick-add label{font-size:13px;color:var(--text-dim);}
-  .quick-add input{width:64px;padding:6px 8px;}
-  .quick-add .pace-in{width:80px;}
-
-  footer{
-    font-size:12px;color:var(--text-dim);line-height:1.6;
-    margin-top:6px;
-  }
+  footer{font-size:12px;color:var(--text-dim);line-height:1.6;margin-top:6px;}
 
   @media (prefers-reduced-motion: reduce){
     .progress-inner{transition:none;}
@@ -183,62 +148,28 @@
     .run-panel{padding:20px 12px;}
     .run-name{font-size:26px;}
 
-    .big-numbers{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px 10px;
-    }
+    .big-numbers{display:grid;grid-template-columns:1fr 1fr;gap:14px 10px;}
     .big-numbers .item{min-width:0;}
     .big-numbers .item.remaining{
-      grid-column:1 / -1;
-      order:-1;
-      padding-bottom:6px;
-      border-bottom:1px solid var(--line);
+      grid-column:1 / -1;order:-1;
+      padding-bottom:6px;border-bottom:1px solid var(--line);
     }
-    .big-numbers .item.remaining .value{font-size:82px;}
+    .big-numbers .item.remaining .value{font-size:78px;}
     .big-numbers .item.remaining .unit{font-size:15px;}
     .big-numbers .value{font-size:34px;}
 
     .progress-outer{height:14px;}
 
     .run-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-    .run-controls button{
-      min-width:0;width:100%;
-      font-size:17px;padding:18px 10px;
-    }
+    .run-controls button{min-width:0;width:100%;font-size:17px;padding:18px 10px;}
     #btnStart{grid-column:1 / -1;}
 
     .session span{font-size:26px;}
 
-    table thead{display:none;}
-    table, tbody, tr, td{display:block;width:100%;}
-    tr{
-      border:1px solid var(--line);
-      border-radius:10px;
-      padding:10px;
-      margin-bottom:10px;
-      position:relative;
-    }
-    td{border-bottom:none;padding:4px 0;}
-    td::before{
-      content:attr(data-label);
-      display:block;
-      font-size:12px;
-      color:var(--text-dim);
-      margin-bottom:4px;
-    }
-    td.col-del{
-      position:absolute;top:8px;right:8px;width:auto;padding:0;
-    }
-    td.col-del::before{content:none;}
-    td.col-del button{padding:10px 14px;font-size:16px;}
-
+    .iv-fields{grid-template-columns:1fr 1fr;}
+    .builder-grid{grid-template-columns:1fr 1fr;}
     .add-row button{flex:1 1 100%;padding:14px;font-size:15px;}
-    .quick-add{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:center;}
-    .quick-add label{grid-column:1 / -1;}
-    .quick-add input{width:100%;padding:12px 10px;font-size:16px;}
-    .quick-add .pace-in{width:100%;}
-    .quick-add button{grid-column:1 / -1;padding:14px;font-size:15px;}
+    .builder button{width:100%;padding:14px;font-size:15px;}
 
     #btnConnect, #btnDisconnect{flex:1 1 auto;padding:16px;font-size:16px;}
     input[type=text], input[type=number], select{font-size:16px;padding:11px 10px;}
@@ -256,26 +187,26 @@
     </div>
   </header>
 
-  <div class="panel" id="connectPanel">
+  <div class="panel">
     <div class="section-title">Připojení</div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
       <button class="primary" id="btnConnect">Připojit pás</button>
       <button class="ghost" id="btnDisconnect" disabled>Odpojit</button>
       <label style="font-size:13px;color:var(--text-dim);display:flex;align-items:center;gap:6px;margin-left:auto;">
-        <input type="checkbox" id="chkVoice" checked style="width:auto;"> hlasové hlášení intervalů
+        <input type="checkbox" id="chkVoice" checked style="width:auto;"> hlasové hlášení
       </label>
     </div>
     <pre id="logBox" style="display:none;margin:12px 0 0;padding:10px;background:#0D1116;border:1px solid var(--line);border-radius:8px;font-family:var(--mono);font-size:12px;line-height:1.5;color:var(--text-dim);white-space:pre-wrap;word-break:break-word;max-height:220px;overflow:auto;"></pre>
   </div>
 
-  <div class="panel run-panel" id="runPanel">
+  <div class="panel run-panel">
     <div id="idleMsg" class="idle-msg">
-      Přidej si intervaly níže a připoj pás. Trénink spustíš tlačítkem „Start tréninku“.
+      Sestav si trénink níže a připoj pás. Pak spusť tlačítkem „Start tréninku“.
     </div>
 
     <div id="liveView" style="display:none;">
-      <div class="run-label" id="runProgressLabel">Interval 1 / 6</div>
-      <div class="run-name work" id="runName">Běh — 400 m</div>
+      <div class="run-label" id="runProgressLabel">Interval 1 / 1</div>
+      <div class="run-name work" id="runName">Běh</div>
 
       <div class="big-numbers">
         <div class="item">
@@ -288,7 +219,7 @@
         </div>
         <div class="item remaining">
           <div class="value" id="valRemaining">0</div>
-          <div class="unit">m zbývá do konce intervalu</div>
+          <div class="unit" id="valRemainingUnit">zbývá</div>
         </div>
       </div>
 
@@ -302,7 +233,7 @@
       <button id="btnStop" disabled>Ukončit</button>
     </div>
 
-    <div class="session" id="sessionStrip">
+    <div class="session">
       <div><span id="sesDist">0</span><small>m celkem</small></div>
       <div><span id="sesTime">0:00</span><small>čas</small></div>
       <div><span id="sesIncline">—</span><small>% sklon</small></div>
@@ -310,42 +241,44 @@
   </div>
 
   <div class="panel">
-    <div class="section-title">Intervaly</div>
-    <table>
-      <thead>
-        <tr>
-          <th style="width:70px;">Typ</th>
-          <th>Popis</th>
-          <th style="width:90px;">Vzdál. (m)</th>
-          <th style="width:80px;">Tempo /km</th>
-          <th style="width:80px;">Rychlost</th>
-          <th class="col-del"></th>
-        </tr>
-      </thead>
-      <tbody id="intervalBody"></tbody>
-    </table>
+    <div class="section-title">Trénink</div>
+    <div id="intervalList"></div>
 
     <div class="add-row">
-      <button id="btnAddRun">+ přidat běh</button>
-      <button id="btnAddRest">+ přidat odpočinek</button>
+      <button id="btnAddRun">+ běh</button>
+      <button id="btnAddRest">+ chůze</button>
       <button class="ghost" id="btnClear">Smazat vše</button>
     </div>
 
-    <div class="quick-add">
-      <label>Rychlé přidání:</label>
-      <input type="number" id="qCount" value="6" min="1" max="30">×
-      <input type="number" id="qDist" value="400" min="50" step="50"> m běh, tempo
-      <input type="text" class="pace-in" id="qPace" value="3:30">
-      <label>odpočinek</label>
-      <input type="number" id="qRestDist" value="200" min="0" step="50"> m chůzí
-      <input type="text" class="pace-in" id="qRestPace" value="10:00">
-      <button id="btnQuickAdd">Vygenerovat</button>
+    <div class="builder">
+      <div class="section-title">Vygenerovat opakování</div>
+      <div class="builder-grid">
+        <div>
+          <label for="qCount">Počet</label>
+          <input type="number" id="qCount" value="10" min="1" max="40">
+        </div>
+        <div>
+          <label for="qDist">Běh (m)</label>
+          <input type="number" id="qDist" value="400" min="50" step="50">
+        </div>
+        <div>
+          <label for="qPace">Tempo /km</label>
+          <input type="text" id="qPace" value="4:39">
+        </div>
+        <div>
+          <label for="qRestSec">Chůze (s)</label>
+          <input type="number" id="qRestSec" value="60" min="0" step="10">
+        </div>
+      </div>
+      <button id="btnQuickAdd">Přidat do tréninku</button>
     </div>
+
+    <div class="summary" id="summary"></div>
   </div>
 
   <footer>
-    Funguje v Chrome / Edge / Chromium (Web Bluetooth), na iOS v prohlížeči Bluefy. Vyžaduje pás s FTMS podporou.
-    Bezpečnostní klíč pásu i tlačítko nouzového zastavení na konzoli fungují nezávisle na appce — appka je nenahrazuje.
+    Funguje v Chrome / Edge / Chromium, na iOS v prohlížeči Bluefy. Vyžaduje pás s FTMS podporou.
+    Bezpečnostní klíč a nouzové zastavení na konzoli fungují nezávisle na appce — appka je nenahrazuje.
   </footer>
 
 </div>
@@ -354,17 +287,17 @@
 (function(){
   "use strict";
 
-  // ---------- FTMS constants ----------
+  // ---------- FTMS ----------
   const SVC_FTMS = '00001826-0000-1000-8000-00805f9b34fb';
   const CHR_TREADMILL_DATA = '00002acd-0000-1000-8000-00805f9b34fb';
   const CHR_CONTROL_POINT  = '00002ad9-0000-1000-8000-00805f9b34fb';
   const CHR_MACHINE_STATUS = '00002ada-0000-1000-8000-00805f9b34fb';
 
-  const OP_REQUEST_CONTROL = 0x00;
+  const OP_REQUEST_CONTROL  = 0x00;
   const OP_SET_TARGET_SPEED = 0x02;
-  const OP_START_RESUME    = 0x07;
-  const OP_STOP_PAUSE      = 0x08;
-  const RESP_CODE          = 0x80;
+  const OP_START_RESUME     = 0x07;
+  const OP_STOP_PAUSE       = 0x08;
+  const RESP_CODE           = 0x80;
 
   // ---------- state ----------
   let device=null, server=null;
@@ -372,91 +305,79 @@
   let controlQueue = Promise.resolve();
   let pendingControlResolve = null;
 
+  // interval: {id, kind:'run'|'rest', mode:'dist'|'time',
+  //            distanceM, durationSec, speedKmh, paceStr}
   let intervals = [];
   let idCounter = 1;
 
-  let running = false, paused = false;
-  let currentIndex = -1;
+  let running=false, paused=false;
+  let currentIndex=-1;
+
   let startDistanceM = 0;
   let lastTotalDistanceM = 0;
   let haveDistanceBaseline = false;
 
-  // Session totals — the console hides these once BLE takes over the treadmill.
+  let intervalElapsedMs = 0;
+  let lastTickAt = null;
+
   let sessionStartDistanceM = null;
-  let sessionStartedAt = null;
-  let deviceElapsedSec = null;
-  let deviceElapsedBase = null;
-  let sessionTicker = null;
+  let sessionElapsedMs = 0;
+  let ticker = null;
 
   // ---------- DOM ----------
   const $ = (id)=>document.getElementById(id);
-  const statusDot = $('statusDot'), statusText = $('statusText');
-  const btnConnect = $('btnConnect'), btnDisconnect = $('btnDisconnect');
-  const btnStart = $('btnStart'), btnPause = $('btnPause'), btnSkip = $('btnSkip'), btnStop = $('btnStop');
-  const idleMsg = $('idleMsg'), liveView = $('liveView');
-  const runProgressLabel = $('runProgressLabel'), runName = $('runName');
-  const valSpeed = $('valSpeed'), valTarget = $('valTarget'), valRemaining = $('valRemaining');
-  const progressBar = $('progressBar');
-  const intervalBody = $('intervalBody');
-  const sesDist = $('sesDist'), sesTime = $('sesTime'), sesIncline = $('sesIncline');
-  const chkVoice = $('chkVoice');
+  const statusDot=$('statusDot'), statusText=$('statusText');
+  const btnConnect=$('btnConnect'), btnDisconnect=$('btnDisconnect');
+  const btnStart=$('btnStart'), btnPause=$('btnPause'), btnSkip=$('btnSkip'), btnStop=$('btnStop');
+  const idleMsg=$('idleMsg'), liveView=$('liveView');
+  const runProgressLabel=$('runProgressLabel'), runName=$('runName');
+  const valSpeed=$('valSpeed'), valTarget=$('valTarget');
+  const valRemaining=$('valRemaining'), valRemainingUnit=$('valRemainingUnit');
+  const progressBar=$('progressBar');
+  const intervalList=$('intervalList'), summaryBox=$('summary');
+  const sesDist=$('sesDist'), sesTime=$('sesTime'), sesIncline=$('sesIncline');
+  const chkVoice=$('chkVoice');
 
   // ---------- helpers ----------
   function paceToSpeed(paceStr){
-    const m = paceStr.trim().match(/^(\d+):(\d{1,2})$/);
+    const m = String(paceStr).trim().match(/^(\d+):(\d{1,2})$/);
     if(!m) return null;
-    const totalSec = parseInt(m[1],10)*60 + parseInt(m[2],10);
-    if(totalSec<=0) return null;
-    return 3600/totalSec;
+    const sec = parseInt(m[1],10)*60 + parseInt(m[2],10);
+    return sec>0 ? 3600/sec : null;
   }
-  function speedToPace(speedKmh){
-    if(!speedKmh || speedKmh<=0) return '—';
-    const totalSec = 3600/speedKmh;
-    const mm = Math.floor(totalSec/60);
-    const ss = Math.round(totalSec%60);
-    return mm+':'+String(ss).padStart(2,'0');
+  function speedToPace(kmh){
+    if(!kmh || kmh<=0) return '—';
+    const sec = 3600/kmh;
+    return Math.floor(sec/60) + ':' + String(Math.round(sec%60)).padStart(2,'0');
+  }
+  function fmtTime(sec){
+    sec = Math.max(0, Math.round(sec));
+    return Math.floor(sec/60) + ':' + String(sec%60).padStart(2,'0');
   }
   function setStatus(text, cls){
     statusText.textContent = text;
     statusDot.className = 'dot' + (cls?(' '+cls):'');
   }
   function log(msg){
-    const box = document.getElementById('logBox');
-    box.style.display = 'block';
-    const t = new Date().toLocaleTimeString('cs-CZ');
-    box.textContent += '[' + t + '] ' + msg + '\n';
+    const box = $('logBox');
+    box.style.display='block';
+    box.textContent += '[' + new Date().toLocaleTimeString('cs-CZ') + '] ' + msg + '\n';
     box.scrollTop = box.scrollHeight;
   }
   function speak(text){
     if(!chkVoice.checked) return;
     try{
       const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'cs-CZ';
+      u.lang='cs-CZ';
       window.speechSynthesis.cancel();
       window.speechSynthesis.speak(u);
     }catch(e){}
   }
-  let wakeLock = null;
-  async function requestWakeLock(){
-    try{
-      if('wakeLock' in navigator){
-        wakeLock = await navigator.wakeLock.request('screen');
-      }
-    }catch(e){}
-  }
-  function releaseWakeLock(){
-    try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){}
-  }
-  document.addEventListener('visibilitychange', ()=>{
-    if(document.visibilityState==='visible' && running && !wakeLock) requestWakeLock();
-  });
-
   function beep(freq, durMs){
     try{
       const ctx = beep._ctx || (beep._ctx = new (window.AudioContext||window.webkitAudioContext)());
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.frequency.value = freq;
+      const osc=ctx.createOscillator(), gain=ctx.createGain();
+      osc.frequency.value=freq;
       osc.connect(gain); gain.connect(ctx.destination);
       gain.gain.setValueAtTime(0.15, ctx.currentTime);
       osc.start();
@@ -465,137 +386,213 @@
     }catch(e){}
   }
 
-  // ---------- interval table ----------
-  function addInterval(kind, distanceM, speedKmh, paceStr){
-    intervals.push({
+  let wakeLock=null;
+  async function requestWakeLock(){
+    try{ if('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); }catch(e){}
+  }
+  function releaseWakeLock(){
+    try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){}
+  }
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState==='visible' && running && !wakeLock) requestWakeLock();
+  });
+
+  // ---------- interval model ----------
+  function addInterval(opts){
+    intervals.push(Object.assign({
       id: idCounter++,
-      kind: kind,
-      distanceM: distanceM,
-      speedKmh: speedKmh,
-      paceStr: paceStr || speedToPace(speedKmh)
-    });
+      kind: 'run',
+      mode: 'dist',
+      distanceM: 400,
+      durationSec: 60,
+      speedKmh: 10,
+      paceStr: '6:00'
+    }, opts));
     renderIntervals();
   }
 
+  function ivLabel(iv){
+    const amount = iv.mode==='dist' ? (iv.distanceM + ' m') : (iv.durationSec + ' s');
+    return (iv.kind==='run' ? 'Běh' : 'Chůze') + ' ' + amount + ' @ ' + iv.paceStr + '/km';
+  }
+
   function renderIntervals(){
-    intervalBody.innerHTML = '';
+    intervalList.innerHTML = '';
+
+    if(intervals.length===0){
+      const empty = document.createElement('div');
+      empty.className = 'idle-msg';
+      empty.style.marginBottom = '12px';
+      empty.textContent = 'Zatím prázdné. Přidej jednotlivé úseky nebo si vygeneruj opakování.';
+      intervalList.appendChild(empty);
+    }
+
     intervals.forEach((iv, idx)=>{
-      const tr = document.createElement('tr');
-      if(running && idx===currentIndex) tr.classList.add('current-row');
+      const box = document.createElement('div');
+      box.className = 'iv' + (running && idx===currentIndex ? ' current' : '');
 
-      const tdKind = document.createElement('td');
-      tdKind.setAttribute('data-label','Typ');
-      const sel = document.createElement('select');
-      ['run','rest'].forEach(k=>{
-        const opt = document.createElement('option');
-        opt.value=k; opt.textContent = (k==='run'?'Běh':'Chůze');
-        if(iv.kind===k) opt.selected=true;
-        sel.appendChild(opt);
-      });
-      sel.addEventListener('change', ()=>{ iv.kind = sel.value; renderIntervals(); });
-      tdKind.appendChild(sel);
+      const head = document.createElement('div');
+      head.className = 'iv-head';
 
-      const tdLabel = document.createElement('td');
-      tdLabel.setAttribute('data-label','Interval ' + (idx+1));
-      tdLabel.textContent = (iv.kind==='run'?'Běh':'Chůze/odpočinek') + ' ' + iv.distanceM + ' m';
-      tdLabel.style.color = 'var(--text-dim)';
+      const num = document.createElement('div');
+      num.className = 'iv-num';
+      num.textContent = (idx+1) + '.';
 
-      const tdDist = document.createElement('td');
-      tdDist.setAttribute('data-label','Vzdálenost (m)');
-      const inDist = document.createElement('input');
-      inDist.type='number'; inDist.min='0'; inDist.step='50'; inDist.value=iv.distanceM;
-      inDist.addEventListener('change', ()=>{
-        iv.distanceM = Math.max(0, parseInt(inDist.value,10)||0);
-        renderIntervals();
-      });
-      tdDist.appendChild(inDist);
+      const title = document.createElement('div');
+      title.className = 'iv-title ' + (iv.kind==='run'?'work':'rest');
+      title.textContent = ivLabel(iv);
 
-      const tdPace = document.createElement('td');
-      tdPace.setAttribute('data-label','Tempo na km (m:ss)');
-      const inPace = document.createElement('input');
-      inPace.type='text'; inPace.value = iv.paceStr;
-      inPace.placeholder='m:ss';
-      inPace.addEventListener('change', ()=>{
-        const s = paceToSpeed(inPace.value);
-        if(s){
-          iv.speedKmh = Math.round(s*10)/10;
-          iv.paceStr = inPace.value.trim();
-          renderIntervals();
-        }
-        else { inPace.value = iv.paceStr; }
-      });
-      tdPace.appendChild(inPace);
-
-      const tdSpeed = document.createElement('td');
-      tdSpeed.setAttribute('data-label','Rychlost');
-      tdSpeed.textContent = iv.speedKmh.toFixed(1)+' km/h';
-      tdSpeed.style.color = 'var(--text-dim)';
-
-      const tdDel = document.createElement('td');
-      tdDel.className='col-del';
-      const btnDel = document.createElement('button');
-      btnDel.textContent = '✕';
-      btnDel.title = 'Smazat interval';
-      btnDel.addEventListener('click', ()=>{
+      const del = document.createElement('button');
+      del.className = 'iv-del';
+      del.textContent = '✕';
+      del.title = 'Smazat úsek';
+      del.addEventListener('click', ()=>{
+        if(running) return;
         intervals.splice(idx,1);
         renderIntervals();
       });
-      tdDel.appendChild(btnDel);
 
-      tr.appendChild(tdKind);
-      tr.appendChild(tdLabel);
-      tr.appendChild(tdDist);
-      tr.appendChild(tdPace);
-      tr.appendChild(tdSpeed);
-      tr.appendChild(tdDel);
-      intervalBody.appendChild(tr);
+      head.appendChild(num); head.appendChild(title); head.appendChild(del);
+      box.appendChild(head);
+
+      const fields = document.createElement('div');
+      fields.className = 'iv-fields';
+
+      fields.appendChild(field('Typ', selectEl(
+        [['run','Běh'],['rest','Chůze']], iv.kind,
+        v=>{ iv.kind=v; renderIntervals(); }
+      )));
+
+      fields.appendChild(field('Měřit podle', selectEl(
+        [['dist','metrů'],['time','času']], iv.mode,
+        v=>{ iv.mode=v; renderIntervals(); }
+      )));
+
+      if(iv.mode==='dist'){
+        fields.appendChild(field('Vzdálenost (m)', numberEl(iv.distanceM, 0, 50, v=>{
+          iv.distanceM = Math.max(0, v); renderIntervals();
+        })));
+      }else{
+        fields.appendChild(field('Čas (s)', numberEl(iv.durationSec, 0, 10, v=>{
+          iv.durationSec = Math.max(0, v); renderIntervals();
+        })));
+      }
+
+      const paceInput = document.createElement('input');
+      paceInput.type='text'; paceInput.value=iv.paceStr; paceInput.placeholder='m:ss';
+      paceInput.addEventListener('change', ()=>{
+        const s = paceToSpeed(paceInput.value);
+        if(s){
+          iv.speedKmh = Math.round(s*10)/10;
+          iv.paceStr = paceInput.value.trim();
+        }
+        renderIntervals();
+      });
+      fields.appendChild(field('Tempo /km (' + iv.speedKmh.toFixed(1) + ' km/h)', paceInput));
+
+      box.appendChild(fields);
+      intervalList.appendChild(box);
     });
 
-    if(!running){
-      btnStart.disabled = (intervals.length===0) || !controlChar;
-    }
+    renderSummary();
+    if(!running) btnStart.disabled = intervals.length===0 || !controlChar;
   }
 
-  $('btnAddRun').addEventListener('click', ()=>addInterval('run', 400, Math.round((paceToSpeed('4:00')||10)*10)/10, '4:00'));
-  $('btnAddRest').addEventListener('click', ()=>addInterval('rest', 200, Math.round((paceToSpeed('12:00')||5)*10)/10, '12:00'));
-  $('btnClear').addEventListener('click', ()=>{ if(!running){ intervals=[]; renderIntervals(); } });
+  function field(labelText, inputEl){
+    const wrap = document.createElement('div');
+    const lab = document.createElement('label');
+    lab.textContent = labelText;
+    wrap.appendChild(lab);
+    wrap.appendChild(inputEl);
+    return wrap;
+  }
+  function selectEl(options, value, onChange){
+    const sel = document.createElement('select');
+    options.forEach(([v,t])=>{
+      const o=document.createElement('option');
+      o.value=v; o.textContent=t;
+      if(v===value) o.selected=true;
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', ()=>onChange(sel.value));
+    return sel;
+  }
+  function numberEl(value, min, step, onChange){
+    const inp=document.createElement('input');
+    inp.type='number'; inp.value=value; inp.min=min; inp.step=step;
+    inp.addEventListener('change', ()=>onChange(parseInt(inp.value,10)||0));
+    return inp;
+  }
+
+  function renderSummary(){
+    if(intervals.length===0){ summaryBox.textContent=''; return; }
+    let meters=0, seconds=0;
+    intervals.forEach(iv=>{
+      if(iv.mode==='dist'){
+        meters += iv.distanceM;
+        if(iv.speedKmh>0) seconds += iv.distanceM / (iv.speedKmh*1000/3600);
+      }else{
+        seconds += iv.durationSec;
+        meters += iv.durationSec * (iv.speedKmh*1000/3600);
+      }
+    });
+    summaryBox.textContent =
+      intervals.length + ' úseků · celkem zhruba ' + (meters/1000).toFixed(2) +
+      ' km · odhadem ' + fmtTime(seconds);
+  }
+
+  $('btnAddRun').addEventListener('click', ()=>addInterval({
+    kind:'run', mode:'dist', distanceM:400, speedKmh:12.9, paceStr:'4:39'
+  }));
+  $('btnAddRest').addEventListener('click', ()=>addInterval({
+    kind:'rest', mode:'time', durationSec:60, speedKmh:5, paceStr:'12:00'
+  }));
+  $('btnClear').addEventListener('click', ()=>{
+    if(running) return;
+    intervals=[]; renderIntervals();
+  });
 
   $('btnQuickAdd').addEventListener('click', ()=>{
     const count = Math.max(1, parseInt($('qCount').value,10)||1);
-    const dist = Math.max(50, parseInt($('qDist').value,10)||400);
-    const pace = paceToSpeed($('qPace').value) || 10;
-    const restDist = Math.max(0, parseInt($('qRestDist').value,10)||0);
-    const restPace = paceToSpeed($('qRestPace').value) || 5;
+    const dist  = Math.max(10, parseInt($('qDist').value,10)||400);
+    const paceStr = $('qPace').value.trim();
+    const pace  = paceToSpeed(paceStr);
+    const restSec = Math.max(0, parseInt($('qRestSec').value,10)||0);
+    if(!pace){ alert('Tempo zadej ve tvaru m:ss, třeba 4:39.'); return; }
+
     for(let i=0;i<count;i++){
-      addInterval('run', dist, Math.round(pace*10)/10, $('qPace').value.trim());
-      if(restDist>0 && i<count-1){
-        addInterval('rest', restDist, Math.round(restPace*10)/10, $('qRestPace').value.trim());
+      addInterval({
+        kind:'run', mode:'dist', distanceM:dist,
+        speedKmh: Math.round(pace*10)/10, paceStr: paceStr
+      });
+      if(restSec>0){
+        addInterval({
+          kind:'rest', mode:'time', durationSec:restSec,
+          speedKmh:5, paceStr:'12:00'
+        });
       }
     }
   });
 
-  // ---------- Bluetooth connect ----------
+  // ---------- Bluetooth ----------
   btnConnect.addEventListener('click', async ()=>{
     if(!navigator.bluetooth){
       log('CHYBA: navigator.bluetooth není dostupný — tenhle prohlížeč Web Bluetooth neumí.');
-      setStatus('Prohlížeč nepodporuje BT', 'err');
+      setStatus('Prohlížeč nepodporuje BT','err');
       return;
     }
     try{
       setStatus('Vybírám zařízení…');
       log('Hledám zařízení s FTMS službou…');
-
       try{
         device = await navigator.bluetooth.requestDevice({
-          filters: [{ services: [SVC_FTMS] }],
-          optionalServices: [SVC_FTMS]
+          filters:[{services:[SVC_FTMS]}], optionalServices:[SVC_FTMS]
         });
       }catch(e1){
         log('Filtrované hledání selhalo (' + e1.name + '): ' + e1.message);
         log('Zkouším zobrazit všechna zařízení v dosahu…');
         device = await navigator.bluetooth.requestDevice({
-          acceptAllDevices: true,
-          optionalServices: [SVC_FTMS]
+          acceptAllDevices:true, optionalServices:[SVC_FTMS]
         });
       }
 
@@ -604,19 +601,15 @@
 
       setStatus('Připojuji…');
       server = await device.gatt.connect();
-      log('GATT připojeno, hledám FTMS službu…');
-
       const service = await server.getPrimaryService(SVC_FTMS);
       log('FTMS služba nalezena.');
 
       treadmillChar = await service.getCharacteristic(CHR_TREADMILL_DATA);
       controlChar   = await service.getCharacteristic(CHR_CONTROL_POINT);
       try{ statusChar = await service.getCharacteristic(CHR_MACHINE_STATUS); }catch(e){ statusChar=null; }
-      log('Charakteristiky připraveny.');
 
       await treadmillChar.startNotifications();
       treadmillChar.addEventListener('characteristicvaluechanged', onTreadmillData);
-
       await controlChar.startNotifications();
       controlChar.addEventListener('characteristicvaluechanged', onControlResponse);
 
@@ -624,13 +617,13 @@
       log('Převzato řízení pásu. Připraveno.');
 
       setStatus('Připojeno: ' + (device.name||'pás'), 'on');
-      btnConnect.disabled = true;
-      btnDisconnect.disabled = false;
+      btnConnect.disabled=true;
+      btnDisconnect.disabled=false;
       btnStart.disabled = intervals.length===0;
     }catch(err){
       console.error(err);
       log('CHYBA: ' + err.name + ' — ' + err.message);
-      setStatus('Chyba připojení', 'err');
+      setStatus('Chyba připojení','err');
     }
   });
 
@@ -641,9 +634,9 @@
   function onDisconnected(){
     setStatus('Odpojeno');
     log('Zařízení se odpojilo.');
-    treadmillChar = null; controlChar = null; statusChar = null;
-    btnConnect.disabled = false;
-    btnDisconnect.disabled = true;
+    treadmillChar=null; controlChar=null; statusChar=null;
+    btnConnect.disabled=false;
+    btnDisconnect.disabled=true;
     stopWorkout(false);
   }
 
@@ -656,9 +649,7 @@
         await controlChar.writeValueWithResponse(new Uint8Array(bytes));
       }catch(e){
         log('Zápis příkazu selhal: ' + e.message);
-        pendingControlResolve = null;
-        resolve();
-        return;
+        pendingControlResolve=null; resolve(); return;
       }
       setTimeout(()=>{
         if(pendingControlResolve){ pendingControlResolve(); pendingControlResolve=null; }
@@ -683,87 +674,56 @@
   }
   function startMachine(){ return sendControlCommand([OP_START_RESUME]); }
   function pauseMachine(){ return sendControlCommand([OP_STOP_PAUSE, 0x02]); }
-  function stopMachine(){ return sendControlCommand([OP_STOP_PAUSE, 0x01]); }
+  function stopMachine(){  return sendControlCommand([OP_STOP_PAUSE, 0x01]); }
 
-  // ---------- treadmill data (0x2ACD) ----------
+  // ---------- treadmill data ----------
   function onTreadmillData(e){
     const dv = e.target.value;
     const len = dv.byteLength;
     let offset = 0;
-    const flags = dv.getUint16(offset, true); offset+=2;
-    const has = (bit)=> (flags & (1<<bit)) !== 0;
-    const room = (n)=> offset + n <= len;
+    const flags = dv.getUint16(offset,true); offset+=2;
+    const has=(bit)=> (flags & (1<<bit))!==0;
+    const room=(n)=> offset+n<=len;
 
-    let instSpeedKmh=null, totalDistanceM=null, inclinePct=null, elapsedSec=null;
+    let speed=null, dist=null, incline=null;
 
     // Bit 0 is "More Data": when it is 0, instantaneous speed IS present.
-    if(!has(0) && room(2)){ instSpeedKmh = dv.getUint16(offset,true)/100; offset+=2; }
-    if(has(1) && room(2)){ offset+=2; }                    // average speed
-    if(has(2) && room(3)){                                  // total distance, 24-bit, meters
-      totalDistanceM = dv.getUint8(offset) | (dv.getUint8(offset+1)<<8) | (dv.getUint8(offset+2)<<16);
+    if(!has(0) && room(2)){ speed = dv.getUint16(offset,true)/100; offset+=2; }
+    if(has(1) && room(2)){ offset+=2; }
+    if(has(2) && room(3)){
+      dist = dv.getUint8(offset) | (dv.getUint8(offset+1)<<8) | (dv.getUint8(offset+2)<<16);
       offset+=3;
     }
-    if(has(3) && room(4)){                                  // inclination + ramp angle
-      inclinePct = dv.getInt16(offset,true)/10; offset+=4;
-    }
-    if(has(4) && room(4)){ offset+=4; }                     // elevation gain
-    if(has(5) && room(1)){ offset+=1; }                     // instantaneous pace
-    if(has(6) && room(1)){ offset+=1; }                     // average pace
-    if(has(7) && room(5)){ offset+=5; }                     // energy
-    if(has(8) && room(1)){ offset+=1; }                     // heart rate
-    if(has(9) && room(1)){ offset+=1; }                     // metabolic equivalent
-    if(has(10) && room(2)){ elapsedSec = dv.getUint16(offset,true); offset+=2; }
+    if(has(3) && room(4)){ incline = dv.getInt16(offset,true)/10; offset+=4; }
 
-    if(instSpeedKmh!==null) valSpeed.textContent = instSpeedKmh.toFixed(1);
-    if(inclinePct!==null) sesIncline.textContent = inclinePct.toFixed(1);
+    if(speed!==null) valSpeed.textContent = speed.toFixed(1);
+    if(incline!==null) sesIncline.textContent = incline.toFixed(1);
 
-    if(elapsedSec!==null){
-      if(deviceElapsedBase===null) deviceElapsedBase = elapsedSec;
-      deviceElapsedSec = elapsedSec;
+    if(dist!==null){
+      lastTotalDistanceM = dist;
+      if(sessionStartDistanceM===null) sessionStartDistanceM = dist;
+      if(!haveDistanceBaseline){ startDistanceM = dist; haveDistanceBaseline = true; }
+      sesDist.textContent = Math.max(0, dist - sessionStartDistanceM);
     }
-
-    if(totalDistanceM!==null){
-      lastTotalDistanceM = totalDistanceM;
-      if(sessionStartDistanceM===null) sessionStartDistanceM = totalDistanceM;
-      if(!haveDistanceBaseline){
-        startDistanceM = totalDistanceM;
-        haveDistanceBaseline = true;
-      }
-      sesDist.textContent = Math.max(0, totalDistanceM - sessionStartDistanceM);
-      if(running && !paused) updateProgress();
-    }
-    updateSessionTime();
-  }
-
-  function updateSessionTime(){
-    let sec = null;
-    if(deviceElapsedSec!==null && deviceElapsedBase!==null){
-      // Prefer the treadmill's own clock when it reports one.
-      sec = deviceElapsedSec - deviceElapsedBase;
-    }else if(sessionStartedAt){
-      sec = Math.floor((Date.now()-sessionStartedAt)/1000);
-    }
-    if(sec===null) return;
-    sec = Math.max(0, sec);
-    const mm = Math.floor(sec/60), ss = sec%60;
-    sesTime.textContent = mm + ':' + String(ss).padStart(2,'0');
   }
 
   // ---------- workout engine ----------
   btnStart.addEventListener('click', async ()=>{
     if(intervals.length===0) return;
-    running = true; paused=false; currentIndex = -1;
+    running=true; paused=false; currentIndex=-1;
     idleMsg.style.display='none';
     liveView.style.display='block';
-    btnStart.disabled = true; btnPause.disabled=false; btnSkip.disabled=false; btnStop.disabled=false;
+    btnStart.disabled=true; btnPause.disabled=false;
+    btnSkip.disabled=false; btnStop.disabled=false;
 
-    sessionStartDistanceM = (lastTotalDistanceM || null);
-    sessionStartedAt = Date.now();
-    deviceElapsedBase = deviceElapsedSec;
-    sesDist.textContent = '0';
-    sesTime.textContent = '0:00';
-    if(sessionTicker) clearInterval(sessionTicker);
-    sessionTicker = setInterval(updateSessionTime, 1000);
+    sessionStartDistanceM = lastTotalDistanceM || null;
+    sessionElapsedMs = 0;
+    sesDist.textContent='0';
+    sesTime.textContent='0:00';
+
+    lastTickAt = Date.now();
+    if(ticker) clearInterval(ticker);
+    ticker = setInterval(tick, 250);
 
     requestWakeLock();
     await advanceInterval();
@@ -773,43 +733,46 @@
     if(!running) return;
     paused = !paused;
     if(paused){
-      btnPause.textContent = 'Pokračovat';
+      btnPause.textContent='Pokračovat';
       await pauseMachine();
       speak('Pauza');
     }else{
-      btnPause.textContent = 'Pauza';
+      btnPause.textContent='Pauza';
+      lastTickAt = Date.now();
       await startMachine();
       const iv = intervals[currentIndex];
       if(iv) await setTargetSpeed(iv.speedKmh);
     }
   });
 
-  btnSkip.addEventListener('click', async ()=>{
-    if(running) await advanceInterval();
-  });
-
+  btnSkip.addEventListener('click', async ()=>{ if(running) await advanceInterval(); });
   btnStop.addEventListener('click', ()=>stopWorkout(true));
 
-  async function stopWorkout(sendStopCmd){
+  async function stopWorkout(sendStop){
     running=false; paused=false; currentIndex=-1;
     btnPause.disabled=true; btnPause.textContent='Pauza';
     btnSkip.disabled=true; btnStop.disabled=true;
     idleMsg.style.display='block';
     liveView.style.display='none';
+    if(ticker){ clearInterval(ticker); ticker=null; }
     releaseWakeLock();
-    if(sessionTicker){ clearInterval(sessionTicker); sessionTicker=null; }
     renderIntervals();
-    if(sendStopCmd && controlChar){
+    if(sendStop && controlChar){
       try{ await stopMachine(); }catch(e){}
     }
   }
 
   async function advanceInterval(){
-    if(currentIndex>=0 && intervals[currentIndex] && haveDistanceBaseline){
-      const done = intervals[currentIndex];
-      const measured = Math.max(0, lastTotalDistanceM - startDistanceM);
-      log('Interval ' + (currentIndex+1) + ' hotov: pás napočítal ' + measured + ' m (zadáno ' + done.distanceM + ' m)');
+    const prev = intervals[currentIndex];
+    if(prev){
+      if(prev.mode==='dist' && haveDistanceBaseline){
+        const measured = Math.max(0, lastTotalDistanceM - startDistanceM);
+        log('Úsek ' + (currentIndex+1) + ' hotov: pás napočítal ' + measured + ' m (zadáno ' + prev.distanceM + ' m)');
+      }else if(prev.mode==='time'){
+        log('Úsek ' + (currentIndex+1) + ' hotov: ' + Math.round(intervalElapsedMs/1000) + ' s (zadáno ' + prev.durationSec + ' s)');
+      }
     }
+
     currentIndex++;
     if(currentIndex>=intervals.length){
       speak('Trénink hotový');
@@ -817,42 +780,70 @@
       await stopWorkout(true);
       return;
     }
+
     const iv = intervals[currentIndex];
-    haveDistanceBaseline = false;
+    haveDistanceBaseline=false;
+    intervalElapsedMs = 0;
+    lastTickAt = Date.now();
     renderIntervals();
 
     runProgressLabel.textContent = 'Interval ' + (currentIndex+1) + ' / ' + intervals.length;
-    runName.textContent = (iv.kind==='run'?'Běh — ':'Chůze — ') + iv.distanceM + ' m';
+    runName.textContent = ivLabel(iv);
     runName.className = 'run-name ' + (iv.kind==='run'?'work':'rest');
     valTarget.textContent = iv.speedKmh.toFixed(1);
-    valRemaining.textContent = iv.distanceM;
-    progressBar.className = 'progress-inner' + (iv.kind==='rest'?' rest':'');
-    progressBar.style.width = '0%';
 
-    speak((iv.kind==='run'?'Běh, ':'Chůze, ') + iv.distanceM + ' metrů, tempo ' + iv.paceStr + ' na kilometr');
+    if(iv.mode==='dist'){
+      valRemaining.textContent = iv.distanceM;
+      valRemainingUnit.textContent = 'm zbývá';
+    }else{
+      valRemaining.textContent = fmtTime(iv.durationSec);
+      valRemainingUnit.textContent = 'zbývá';
+    }
+    progressBar.className = 'progress-inner' + (iv.kind==='rest'?' rest':'');
+    progressBar.style.width='0%';
+
+    const amount = iv.mode==='dist' ? (iv.distanceM + ' metrů') : (iv.durationSec + ' sekund');
+    speak((iv.kind==='run'?'Běh, ':'Chůze, ') + amount + ', tempo ' + iv.paceStr);
     beep(iv.kind==='run'?660:440, 200);
 
+    log('Úsek ' + (currentIndex+1) + ': ' + ivLabel(iv));
     await setTargetSpeed(iv.speedKmh);
     await startMachine();
   }
 
-  function updateProgress(){
+  function tick(){
+    const now = Date.now();
+    const delta = now - (lastTickAt||now);
+    lastTickAt = now;
+
+    if(!running || paused) return;
+
+    intervalElapsedMs += delta;
+    sessionElapsedMs  += delta;
+    sesTime.textContent = fmtTime(sessionElapsedMs/1000);
+
     const iv = intervals[currentIndex];
     if(!iv) return;
-    const traveled = Math.max(0, lastTotalDistanceM - startDistanceM);
-    const remaining = Math.max(0, iv.distanceM - traveled);
-    valRemaining.textContent = Math.round(remaining);
-    const pct = iv.distanceM>0 ? Math.min(100, (traveled/iv.distanceM)*100) : 0;
-    progressBar.style.width = pct + '%';
 
-    if(traveled >= iv.distanceM){
-      advanceInterval();
+    let done, total;
+    if(iv.mode==='dist'){
+      done  = Math.max(0, lastTotalDistanceM - startDistanceM);
+      total = iv.distanceM;
+      valRemaining.textContent = Math.max(0, Math.round(total - done));
+    }else{
+      done  = intervalElapsedMs/1000;
+      total = iv.durationSec;
+      valRemaining.textContent = fmtTime(Math.max(0, total - done));
     }
+
+    progressBar.style.width = (total>0 ? Math.min(100, done/total*100) : 0) + '%';
+
+    if(total>0 && done>=total) advanceInterval();
   }
 
-  // ---------- init ----------
-  addInterval('run', 400, Math.round((paceToSpeed('3:30')||10)*10)/10, '3:30');
-  addInterval('rest', 200, Math.round((paceToSpeed('10:00')||5)*10)/10, '10:00');
+  // ---------- default workout ----------
+  addInterval({kind:'run',  mode:'dist', distanceM:400, speedKmh:12.9, paceStr:'4:39'});
+  addInterval({kind:'rest', mode:'time', durationSec:60, speedKmh:5, paceStr:'12:00'});
 
 })();
 </script>
